@@ -367,9 +367,11 @@ public class InquiryServiceTest {
 
     @Test
     public void should_return504_when_responseNull() throws SQLException {
-
+    	TransferResponse transferResponse = new TransferResponse();
+        transferResponse.setResponseCode("not_support");
+        transferResponse.setDescription("Not support");
         when(bankProxyGateway.requestTransfer(anyString(),any(),anyString(),anyString(),anyString(),
-                anyDouble(),anyString(),anyString())).thenReturn(null);
+                anyDouble(),anyString(),anyString())).thenReturn(transferResponse);
 
         InquiryServiceResultDTO inquiry = inquiryService.inquiry("123456", new Date(),
                 "Mobile", null,

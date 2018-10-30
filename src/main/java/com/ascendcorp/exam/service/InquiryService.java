@@ -178,6 +178,33 @@ public class InquiryService {
                         respDTO.setReasonCode("501");
                         respDTO.setReasonDesc("General Invalid Data");
                     }
+                }else if(response.getResponseCode().equalsIgnoreCase("not_support"))
+                {
+                    String replyDesc = response.getDescription();
+                    if(replyDesc != null)
+                    {
+                        String respDesc[] = replyDesc.split(":");
+                        if(respDesc != null && respDesc.length >= 2)
+                        {
+                            // bank description full format
+                            respDTO.setReasonCode(respDesc[0]);
+                            respDTO.setReasonDesc(respDesc[1]);
+                            if(respDTO.getReasonDesc() == null || respDTO.getReasonDesc().trim().length() == 0)
+                            {
+                                respDTO.setReasonDesc("General Invalid Data");
+                            }
+                        }else
+                        {
+                            // bank description short format
+                            respDTO.setReasonCode("501");
+                            respDTO.setReasonDesc("General Invalid Data");
+                        }
+                    }else
+                    {
+                        // bank no description
+                        respDTO.setReasonCode("501");
+                        respDTO.setReasonDesc("General Invalid Data");
+                    }
                 }else
                     // bank code not support
                     throw new Exception("Unsupport Error Reason Code");
